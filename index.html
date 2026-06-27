@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Calculadora PVP</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <script src="https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+    <div class="calculator">
+        <div class="header">
+            <div class="autocomplete">
+                <input id="productoInput" type="text" placeholder="Producto" autocomplete="off">
+                <div id="autocomplete-list" class="autocomplete-items hidden"></div>
+            </div>
+            <button id="btnScan" title="Escanear código de barras"><i class="fas fa-barcode"></i></button>
+            <button id="btnExport" title="Exportar a Excel">Exp</button>
+        </div>
+
+        <div class="screen">
+            <div id="operationDisplay">((0 / 1) + 0%) + 0%</div>
+            <div id="priceDisplay">$ 0.00</div>
+            <!-- Indicador de código de barras vinculado -->
+            <div id="barcodeIndicator" class="barcode-indicator hidden"></div>
+        </div>
+
+        <div class="quantity-section">
+            <button id="btnToggleQuantity">Cantidad: <span>1</span></button>
+            
+            <div id="miniPad" class="mini-pad hidden">
+                <div class="mini-pad-grid">
+                    <button class="mini-key">0</button>
+                    <button class="mini-key">1</button>
+                    <button class="mini-key">2</button>
+                    <button class="mini-key">3</button>
+                    <button class="mini-key">4</button>
+                    <button class="mini-key">5</button>
+                    <button class="mini-key">6</button>
+                    <button class="mini-key">7</button>
+                    <button class="mini-key">8</button>
+                    <button class="mini-key">9</button>
+                </div>
+                <div class="mini-pad-actions">
+                    <button id="btnMiniBack"><i class="fas fa-backspace"></i></button>
+                    <button id="btnMiniClose"><i class="fas fa-times"></i></button>
+                </div>
+            </div>
+        </div>
+
+        <div class="main-pad">
+            <button id="btnClear" class="action-btn" title="Limpiar"><i class="fas fa-broom"></i></button>
+            <button id="btnSave" class="action-btn" title="Guardar"><i class="fas fa-save"></i> Guardar</button>
+            <button id="btnBack" class="action-btn" title="Borrar número"><i class="fas fa-backspace"></i></button>
+            <button id="btnDelete" class="action-btn danger" title="Eliminar Producto"><i class="fas fa-trash"></i></button>
+
+            <button class="num-key">7</button>
+            <button class="num-key">8</button>
+            <button class="num-key">9</button>
+            <button class="margin-key" data-val="10">10%</button>
+
+            <button class="num-key">4</button>
+            <button class="num-key">5</button>
+            <button class="num-key">6</button>
+            <button class="margin-key" data-val="20">20%</button>
+
+            <button class="num-key">1</button>
+            <button class="num-key">2</button>
+            <button class="num-key">3</button>
+            <button class="margin-key" data-val="25">25%</button>
+
+            <button id="btnIva" class="iva-key">IVA</button>
+            <button class="num-key">0</button>
+            <button class="num-key">.</button>
+            <button class="margin-key" data-val="30">30%</button>
+        </div>
+
+        <!-- Scanner Modal -->
+        <div id="scannerModal" class="scanner-modal hidden">
+            <div class="scanner-modal-content">
+                <div class="scanner-header">
+                    <div class="scanner-header-left">
+                        <i class="fas fa-barcode scanner-header-icon"></i>
+                        <h3>Escanear Código de Barras</h3>
+                    </div>
+                    <button id="btnCloseScan" title="Cerrar"><i class="fas fa-times"></i></button>
+                </div>
+
+                <!-- Visor de cámara con overlay de mira -->
+                <div class="reader-wrapper">
+                    <div id="reader"></div>
+                    <div class="scan-overlay">
+                        <div class="scan-frame">
+                            <span class="corner tl"></span>
+                            <span class="corner tr"></span>
+                            <span class="corner bl"></span>
+                            <span class="corner br"></span>
+                            <div class="scan-line"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="scanResult" class="scan-result">Apunta la cámara al código de barras…</div>
+
+                <!-- Buscador manual -->
+                <div class="manual-barcode">
+                    <input id="manualBarcodeInput" type="text" placeholder="O escribe el código manualmente…" inputmode="numeric">
+                    <button id="btnManualSearch" title="Buscar"><i class="fas fa-search"></i></button>
+                </div>
+
+                <!-- APIs usadas -->
+                <div class="scanner-footer">
+                    <span>Fuentes: catálogo propio · Open Food Facts · UPC Item DB</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="script.js"></script>
+</body>
+</html>
